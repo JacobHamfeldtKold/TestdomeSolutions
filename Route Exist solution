@@ -1,0 +1,47 @@
+using System;
+
+public class RoutePlanner
+{
+    public static bool RouteExists(int fromRow, int fromColumn, int toRow, int toColumn, bool[,] mapMatrix)
+    {
+        bool[,] mapVisited = new bool[mapMatrix.GetLength(0), mapMatrix.GetLength(1)];
+      
+      if (toRow > mapMatrix.GetLength(0) - 1 || toColumn > mapMatrix.GetLength(1) - 1 || toRow < 0 || toColumn < 0)
+        return false;
+
+      if (!mapMatrix[toRow, toColumn])
+        return false;
+
+      return RouteSearch(fromRow, fromColumn, toRow, toColumn, mapMatrix, mapVisited);
+    }
+
+    public static bool RouteSearch(int fromRow, int fromColumn, int toRow, int toColumn, bool[,] mapMatrix, bool[,] visited)
+    {
+      if (fromRow > mapMatrix.GetLength(0) - 1 || fromColumn > mapMatrix.GetLength(1) - 1 || fromRow < 0 || fromColumn < 0)
+        return false;
+
+      if (fromRow == toRow && fromColumn == toColumn)
+        return true;
+
+      if (visited[fromRow, fromColumn] || !mapMatrix[fromRow, fromColumn])
+        return false;
+
+      visited[fromRow, fromColumn] = true;
+
+      return RouteSearch(fromRow - 1, fromColumn, toRow, toColumn, mapMatrix, visited)
+                    || RouteSearch(fromRow + 1, fromColumn, toRow, toColumn, mapMatrix, visited)
+                    || RouteSearch(fromRow, fromColumn - 1, toRow, toColumn, mapMatrix, visited)
+                    || RouteSearch(fromRow, fromColumn + 1, toRow, toColumn, mapMatrix, visited);
+    }
+    
+    public static void Main(string[] args)
+    {
+        bool[,] mapMatrix = {
+            {true, false, false},
+            {true, true, false},
+            {false, true, true}
+        };
+        
+        Console.WriteLine(RouteExists(0, 0, 2, 2, mapMatrix));
+    }
+}
