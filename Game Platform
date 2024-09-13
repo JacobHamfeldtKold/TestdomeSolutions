@@ -1,0 +1,22 @@
+using System;
+
+public class GamePlatform
+{
+    public static double CalculateFinalSpeed(double initialSpeed, int[] inclinations)
+    {
+        double currentSpeed = initialSpeed;
+        foreach(int inclination in inclinations)
+        {
+            currentSpeed -= inclination;
+            if(currentSpeed <= 0)
+                return 0;
+        }
+
+        return currentSpeed;        
+    }
+    
+    public static void Main(string[] args)
+    {
+        Console.WriteLine(CalculateFinalSpeed(60, new int[] { 0, 30, 0, -45, 0 }));
+    }
+}
