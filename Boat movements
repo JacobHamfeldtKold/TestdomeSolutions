@@ -26,6 +26,7 @@ public class BoatMovements
         
         if (fromColumn - toColumn > 1)
             return false;
+
         if (toColumn - fromColumn > 2)
             return false;
 
